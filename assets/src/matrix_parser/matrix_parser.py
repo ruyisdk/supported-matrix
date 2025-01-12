@@ -262,7 +262,7 @@ class Board:
                     sys_ver=i['sys_ver'],
                     sys_var=i['sys_var'],
                     status=i['status'],
-                    last_update='2000-00-00',
+                    last_update='1970-01-01',
                     link=None
                 )
                 self.append_system(system)
