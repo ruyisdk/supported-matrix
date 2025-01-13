@@ -22,7 +22,7 @@ The `renew_ruyi_index.py` script encapsulates all operations, and you can run th
 
 Due to the complexity of mirror mapping (a single report might correspond to multiple files or indices) and version numbers that need manual handling, creating plugins for each mirror is currently necessary. In the future, generic plugin development may be considered.
 
-To add a new plugin, simply create a new file in the `ruyi_index_updator/upload_plugin` directory. You can directly import the `prelude` from the current folder for some typing helpers.
+To add a new plugin, simply create a new file in the `ruyi_index_updater/upload_plugin` directory. You can directly import the `prelude` from the current folder for some typing helpers.
 
 A `register` function is mandatory in the file. If it returns `Null`, it indicates that the plugin should not be loaded (you can add logic checks if needed). Otherwise, it should return an instance of `UploadPluginBase`.
 
@@ -65,7 +65,7 @@ Register the APP, get the Client ID:
 
 ### Use the OAuth APP
 
-In `src/ruyi_index_updator/github_auth.py` is a separate script that is used to obtain a token. Simply run it and follow the prompts to input the required information.
+In `src/ruyi_index_updater/github_auth.py` is a separate script that is used to obtain a token. Simply run it and follow the prompts to input the required information.
 ```python
-python assets/src/ruyi_index_updator/github_auth.py
+python assets/src/ruyi_index_updater/github_auth.py
 ```

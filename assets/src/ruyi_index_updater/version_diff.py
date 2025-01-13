@@ -110,7 +110,7 @@ class RuyiDiff:
             shutil.rmtree(self.tmp_path)
 
     def __yield_one_sys(self, vinfo: VInfo,
-                        plug: UploadPluginBase):
+                        plug: UploadPluginBase, force: bool):
         for index_name, index in self.index.items():
             if not plug.is_mapped_ruyi_index(vinfo, index_name):
                 continue
@@ -124,8 +124,13 @@ class RuyiDiff:
                     "Find new version for %s: %s -> %s",
                     index_name, newest_index.version, matrix_version)
                 yield BoardImageWrapper(vinfo, plug, index_name, index)
+            if force:
+                logger.info(
+                    "Force update for %s: %s -> %s",
+                    index_name, newest_index.version, matrix_version)
+                yield BoardImageWrapper(vinfo, plug, index_name, index)
 
-    def gen_diff(self, filter_plugins: list[str] = None, threadhold = ImageStatus("basic")):
+    def gen_diff(self, filter_plugins: list[str] = None, threadhold=ImageStatus("basic"), force: bool = False):
         """
         Yield the system that needs to be updated
         """
@@ -144,7 +149,13 @@ class RuyiDiff:
             # Please notice:
             # One system may have multiple ruyi_index, we need to handle them all
             # So, we need to iterate the index
-            yield from self.__yield_one_sys(v, plugin)
+
+            try:
+                yield from self.__yield_one_sys(v, plugin, force)
+            except Exception as e:
+                logger.error("Error occurs when handling system %s:%s:%s-%s",
+                             v.vendor, v.system, v.variant, v.version)
+                logger.error("Error: %s", e)
 
     def __init__(self, matrix: Systems, conf: str):
         self.__get_tmp_path()

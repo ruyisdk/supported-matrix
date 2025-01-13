@@ -22,7 +22,7 @@ class UploadPluginBase(ABC):
     import logging
 
     def __init__(self) -> None:
-        self.logger = self.logging.getLogger("ruyi_index_updator")
+        self.logger = self.logging.getLogger("ruyi_index_updater")
 
     @staticmethod
     @abstractmethod
@@ -33,7 +33,7 @@ class UploadPluginBase(ABC):
         raise NotImplementedError
 
     def __repr__(self) -> str:
-        return f"<Ruyi Index Updator Plugin: {self.get_name()}: v{self.__version__}>"
+        return f"<Ruyi Index Updater Plugin: {self.get_name()}: v{self.__version__}>"
 
     @abstractmethod
     def can_handle(self, vinfo: VInfo) -> bool:
@@ -129,7 +129,8 @@ class UploadPluginBase(ABC):
             "checksums": {
                 "sha256": self.sha256sum(file),
                 "sha512": self.sha512sum(file),
-            }
+            },
+            "restrict": ["mirror"],
         })
 
     def autoupdate_index(self, last_index: BoardImages, vinfo: VInfo,

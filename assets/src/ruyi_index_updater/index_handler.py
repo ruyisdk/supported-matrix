@@ -17,6 +17,7 @@ PACKAGE_INDEX_REPO = "packages-index"
 CI_RUN_ID = os.getenv("CI_RUN_ID", None)
 CI_RUN_URL = os.getenv("CI_RUN_URL", None)
 
+
 class PrWrapper:
     """
     A wrapper for pull request info.
@@ -32,8 +33,8 @@ class PrWrapper:
         return f"""\
 PR:
     Title: {self.title}
-    Body: 
-{self.body} 
+    Body:
+{self.body}
 
 <Body End>
     From: {self.self_branch}
@@ -81,7 +82,7 @@ class RuyiGitRepo:
         """
         prs = self.upstream.get_pulls(state="open")
         for pr in prs:
-            if pr.head.ref == head and pr.base.ref == base:
+            if f"{self.user.login}:{pr.head.ref}" == head and pr.base.ref == base:
                 return True
         return False
 
@@ -111,7 +112,7 @@ class RuyiGitRepo:
         Create a pull request.
         """
         self.__create_pr(PrWrapper(
-            title, body, self_branch, upstream_branch))
+            title, body, self_branch, upstream_branch),)
 
     def __reset_to_upstream(self):
         # self.local_repo.remote().set_url(self.upstream.ssh_url)
@@ -178,7 +179,11 @@ class RuyiGitRepo:
         Checkout to a branch.
         """
         for ref in self.local_repo.branches:
-            if branch in ref.name:
+            logger.info("Branch: %s : %s", branch, ref.name)
+            if branch == ref.name:
+                self.local_repo.git.execute(
+                    ["git", "checkout", "main"]
+                )
                 self.local_repo.git.branch("-D", ref.name)
         self.__reset_to_upstream()
         head = self.local_repo.create_head(branch)
@@ -191,7 +196,7 @@ class RuyiGitRepo:
         Commit the changes.
         """
         logger.info("Commit: %s", message)
-        message = f"{message}\n\nThis commit is made by ruyi-index-updator"
+        message = f"{message}\n\nThis commit is made by ruyi-index-updater"
         self.local_repo.index.commit(message)
 
     def local_push(self, branch: str):
@@ -220,10 +225,12 @@ class RuyiGitRepo:
         with open(index_file, "w", encoding="utf-8") as f:
             f.write(image.new_index_toml())
             if image.index.is_bot_created and CI_RUN_ID is None:
-                f.write("\n# This file is created by program renew_ruyi_index in support-matrix\n")
+                f.write(
+                    "\n# This file is created by program renew_ruyi_index in support-matrix\n")
                 f.write("# Run: In local\n")
             elif image.index.is_bot_created:
-                f.write("\n# This file is created by CI Sync Package Index inside support-matrix\n")
+                f.write(
+                    "\n# This file is created by CI Sync Package Index inside support-matrix\n")
                 f.write(f"# Run ID: {CI_RUN_ID}\n")
                 f.write(f"# Run URL: {CI_RUN_URL}\n")
         # self.local_repo.index.add([index_file])
@@ -232,12 +239,12 @@ class RuyiGitRepo:
         )
         logger.info("Add %s", file_name)
 
-    def upload_image(self, image: BoardImageWrapper):
+    def upload_image(self, image: BoardImageWrapper, force: bool = False) -> PrWrapper:
         """
         Upload the image index to the repo.
         """
 
-        if self.check_pr_exist(image.gen_hash()):
+        if not force and self.check_pr_exist(image.gen_hash()):
             logger.info("PR for %s already exist, skip", image.index_name)
             return
 
@@ -251,7 +258,7 @@ Bump {image.index_name} from {image.old_indexs[-1].version} to {image.index.vers
 
 Identifier: [HASH[{image.gen_hash()}]]
 
-This PR is made by ruyi-index-updator bot.
+This PR is made by ruyi-index-updater bot.
 """
         self.local_commit(message)
         self.local_push(branch_name)

@@ -86,7 +86,7 @@ class SystemVar:
 
     def __init__(self, *args, **kwargs):
         if len(kwargs) > 0:
-            self.sys = kwargs['sys']
+            self.sys = kwargs['sys'].lower()
             self.sys_ver = kwargs['sys_ver']
             self.sys_var = kwargs['sys_var']
             self.status = ImageStatus(kwargs['status'])

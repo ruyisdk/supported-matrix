@@ -1,4 +1,4 @@
-## ruyi index updator
+## ruyi index updater
 
 自动更新 ruyi 工具中镜像的索引文件，同步支持矩阵与 ruyi index。
 
@@ -22,7 +22,7 @@ renew_ruyi_index.py 里面封装了所有的操作，你可以直接运行这个
 
 由于镜像映射情况较为复杂（一份报告对应多个文件乃至于多个 index），且版本号存在需要自行处理的问题，现阶段为每个镜像写一些插件是必需的。后续可能可以考虑通用插件的开发。
 
-新增一个插件，即在 `ruyi_index_updator/upload_plugin` 中新建一个文件即可。你可以直接引入当前文件夹下的 `prelude` 来获取一些 typing。
+新增一个插件，即在 `ruyi_index_updater/upload_plugin` 中新建一个文件即可。你可以直接引入当前文件夹下的 `prelude` 来获取一些 typing。
 
 文件中，一个`register`函数是必须的，若其返回 Null，则说明该插件不应该被加载（你可以自行加逻辑判断）。否则，返回一个`UploadPluginBase`实例。
 
@@ -66,7 +66,7 @@ renew_ruyi_index.py 里面封装了所有的操作，你可以直接运行这个
 
 ### 使用它
 
-在 `src/ruyi_index_updator/github_auth.py` 是一个单独的脚本，其用途就是获取一个 token。直接运行它，按照提示输入即可。
+在 `src/ruyi_index_updater/github_auth.py` 是一个单独的脚本，其用途就是获取一个 token。直接运行它，按照提示输入即可。
 ```python
-python assets/src/ruyi_index_updator/github_auth.py
+python assets/src/ruyi_index_updater/github_auth.py
 ```

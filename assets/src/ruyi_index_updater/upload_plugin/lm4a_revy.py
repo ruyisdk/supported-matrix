@@ -80,6 +80,7 @@ class Lm4aRevy(UploadPluginBase):
                     self.__tmppath__, link.contents[0])
                 root_file = self.download_file(root_path, root_url)
                 root_dist = self.gen_distfile(root_file, root_url)
+                root_dist.restrict = ["mirror"]
             elif 'boot-' in link.contents[0]:
                 boot_url = self.urllib.parse.urljoin(
                     base_url, str(link["href"]))
@@ -87,6 +88,7 @@ class Lm4aRevy(UploadPluginBase):
                     self.__tmppath__, link.contents[0])
                 boot_file = self.download_file(boot_path, boot_url)
                 boot_dist = self.gen_distfile(boot_file, boot_url)
+                boot_dist.restrict = ["mirror"]
 
         if index == "revyos-sipeed-lpi4a":
             desc = f"RevyOS {vinfo.version} image for Sipeed LicheePi 4A"
@@ -145,6 +147,7 @@ class Lm4aRevy(UploadPluginBase):
                 uboot_dist = self.gen_distfile(uboot_file, uboot_url)
                 uboot_dist.name = f"{bname}.{
                     vinfo.version}.bin"
+                uboot_dist.restrict = ["mirror"]
 
         if index == "uboot-revyos-sipeed-lpi4a-8g":
             desc = f"U-Boot image for LicheePi 4A (8G RAM) and RevyOS {
@@ -202,6 +205,7 @@ class Lm4aRevy(UploadPluginBase):
                 uboot_dist = self.gen_distfile(uboot_file, uboot_url)
                 uboot_dist.name = f"{bname}.{
                     vinfo.version}.bin"
+                uboot_dist.restrict = ["mirror"]
 
         if index == "uboot-revyos-sipeed-lpi4a-16g":
             desc = f"U-Boot image for LicheePi 4A (16G RAM) and RevyOS {

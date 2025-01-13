@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 pwd = os.path.abspath(os.path.dirname(__file__))
 get_path = partial(os.path.join, pwd)
-plugin_base = PluginBase(package="src.ruyi_index_updator.plugins")
+plugin_base = PluginBase(package="src.ruyi_index_updater.plugins")
 
 plugins: list[UploadPluginBase] = []
 
