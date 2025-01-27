@@ -50,6 +50,9 @@ cpu_core: XuanTie C906 + ARM Cortex-A53
 - Yocto
   - Source Code Link: https://github.com/kinsamanka/meta-milkv
   - Reference Installation Document: https://github.com/kinsamanka/meta-milkv/blob/master/README.md
+- NixOS
+  - Source code link: https://github.com/NickCao/nixos-riscv
+  - Reference Installation Document: https://github.com/NickCao/nixos-riscv/README.md
 
 ### Hardware Information
 
@@ -69,6 +72,7 @@ cpu_core: XuanTie C906 + ARM Cortex-A53
 | Alpine Linux Boot                  | N/A          | [Success][Alpine] (use community image or build rootfs manually) |
 | Ubuntu Boot                        | N/A          | [Success][Alpine] (use community image or build rootfs manually) |
 | Yocto Image Build and Boot         | N/A          | [Success][Yocto]                                                 |
+| NixOS Image Build and Boot         | N/A          | [Success][NixOS]                                                 |
 
 [BuildRoot]: ./BuildRoot/README.md
 [Debian]: ./Debian/README.md
@@ -80,3 +84,4 @@ cpu_core: XuanTie C906 + ARM Cortex-A53
 [Alpine]: ./Alpine/README.md
 [Ubuntu]: ./Ubuntu/README.md
 [Yocto]: ./Yocto/README.md
+[NixOS]: ./NixOS/README.md

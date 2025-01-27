@@ -62,6 +62,9 @@ cpu_core: XuanTie C906
 - Yocto
   - Source Code Link: https://github.com/kinsamanka/meta-milkv
   - Reference Installation Document: https://github.com/kinsamanka/meta-milkv/blob/master/README.md
+- NixOS
+  - Source code link: https://github.com/NickCao/nixos-riscv
+  - Reference Installation Document: https://github.com/NickCao/nixos-riscv/README.md
 
 ### Hardware Information
 
@@ -85,6 +88,7 @@ cpu_core: XuanTie C906
 | UniProton Boot                       | N/A          | [Success][UniProton]                                             |
 | Ubuntu Boot                          | N/A          | [Success][Ubuntu]                                                |
 | Yocto Image Build and Boot           | N/A          | [Success][Yocto]                                                 |
+| NixOS Image Build and Boot           | N/A          | [Success][NixOS]                                                 |
 
 [Duo]: ./BuildRoot/README.md
 [Arch]: ./ArchLinux/README.md
@@ -100,3 +104,4 @@ cpu_core: XuanTie C906
 [UniProton]: ./UniProton/README.md
 [Ubuntu]: ./Ubuntu/README.md
 [Yocto]: ./Yocto/README.md
+[NixOS]: ./NixOS/README.md

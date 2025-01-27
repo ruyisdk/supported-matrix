@@ -55,6 +55,9 @@
 - Yocto
   - 源码链接：https://github.com/kinsamanka/meta-milkv
   - 参考安装文档：https://github.com/kinsamanka/meta-milkv/blob/master/README.md
+- NixOS
+  - 源码链接: https://github.com/NickCao/nixos-riscv
+  - 参考安装文档: https://github.com/NickCao/nixos-riscv/README.md
 
 ### 硬件开发板信息
 
@@ -77,7 +80,8 @@
 | Zephyr  镜像构建及启动         | N/A      | [成功][Zephyr]                                     |
 | UniProton 启动                 | N/A      | [成功][UniProton]                                  |
 | Ubuntu 启动                    | N/A      | [成功][Ubuntu]                                     |
-| Yocto  镜像构建及启动          | N/A      | [成功][Ubuntu]                                     |
+| Yocto  镜像构建及启动          | N/A      | [成功][Yocto]                                      |
+| NixOS  镜像构建及启动          | N/A      | [成功][NixOS]                                      |
 
 [Duo]: ./BuildRoot/README_zh.md
 [Arch]: ./ArchLinux/README_zh.md
@@ -93,3 +97,4 @@
 [UniProton]: ./UniProton/README_zh.md
 [Ubuntu]: ./Ubuntu/README_zh.md
 [Yocto]: ./Yocto/README_zh.md
+[NixOS]: ./NixOS/README_zh.md
