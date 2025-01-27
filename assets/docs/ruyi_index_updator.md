@@ -66,7 +66,8 @@ renew_ruyi_index.py 里面封装了所有的操作，你可以直接运行这个
 
 ### 使用它
 
-在 `src/ruyi_index_updator/github_auth.py` 是一个单独的脚本，其用途就是获取一个 token。直接运行它，按照提示输入即可。
-```python
-python assets/src/ruyi_index_updator/github_auth.py
+在 `scripts/github_auth.py` 是一个单独的脚本，其用途就是获取一个 token。直接运行它，按照提示输入即可。
+```shell
+pip install -r requirements_ruyinv.txt
+python scripts/github_auth.py
 ```

@@ -4,15 +4,15 @@ This checks if the version of each image needs to be updated, and if so, updates
 
 import os
 import logging
-import shutil
-import tempfile
 import hashlib
-import toml
 import traceback
 
+import toml
 from awesomeversion import AwesomeVersion
 
-from ..ruyi_index_parser import PackageIndexProc, clone_package_index, BoardImages
+from . import util
+from .config import config
+from .ruyi_index_parser import PackageIndexProc, clone_package_index, BoardImages
 from ..version_checker import gen_oldver
 from ..matrix_parser import Systems, ImageStatus
 from ..version_checker import VInfo
@@ -20,8 +20,6 @@ from .plugin_handler import find_plugin
 from .upload_plugin_base import UploadPluginBase
 
 logger = logging.getLogger(__name__)
-
-CACHE_DIR: str | None = os.environ.get("CACHE_DIR", None)
 
 
 def cmp_version(v1: str, v2: str) -> int:
@@ -95,23 +93,8 @@ class RuyiDiff:
     A wrapper for RuyiDiff, holding the resource, doing the diff process
     """
 
-    tmp_path = None
-
-    def __get_tmp_path(self):
-        if self.tmp_path is not None:
-            return
-        if CACHE_DIR is not None:
-            self.tmp_path = CACHE_DIR
-        self.tmp_path = tempfile.mkdtemp()
-
-    def __release_tmp_path(self):
-        if self.tmp_path is None:
-            return
-        if CACHE_DIR is None:
-            shutil.rmtree(self.tmp_path)
-
     def __yield_one_sys(self, vinfo: VInfo,
-                        plug: UploadPluginBase, force: bool):
+                        plug: UploadPluginBase):
         for index_name, index in self.index.items():
             if not plug.is_mapped_ruyi_index(vinfo, index_name):
                 continue
@@ -120,23 +103,23 @@ class RuyiDiff:
                 if cmp_version(i.version, newest_index.version) > 0:
                     newest_index = i
             matrix_version = plug.handle_version(vinfo)
-            logger.info("Handling index %s:%s:%s-%s:%s",
-                        vinfo.vendor, vinfo.system, vinfo.variant, vinfo.version, matrix_version)
             if newest_index.version < matrix_version:
                 logger.info(
                     "Find new version for %s: %s -> %s",
                     index_name, newest_index.version, matrix_version)
                 yield BoardImageWrapper(vinfo, plug, index_name, index)
-            elif force:
+            elif config["force"]:
                 logger.info(
                     "Force update for %s: %s -> %s",
                     index_name, newest_index.version, matrix_version)
                 yield BoardImageWrapper(vinfo, plug, index_name, index)
 
-    def gen_diff(self, filter_plugins: list[str] = None, threadhold=ImageStatus("basic"), force=False):
+    def gen_branch(self):
         """
         Yield the system that needs to be updated
         """
+        threadhold = ImageStatus(config["threadhold"])
+        filter_plugins = config["plugin_names"]
         for _, v in self.oldver.items():
             # Find the plugin that can handle the system
             plugin = find_plugin(v)
@@ -154,24 +137,21 @@ class RuyiDiff:
             # So, we need to iterate the index
 
             try:
-                yield from self.__yield_one_sys(v, plugin, force)
-            except Exception as e:
+                yield from self.__yield_one_sys(v, plugin)
+            except Exception as e: # pylint: disable=broad-except
                 logger.error("Error occurs when handling system %s:%s:%s-%s",
                              v.vendor, v.system, v.variant, v.version)
                 logger.error("Error: %s", e)
                 logger.error(traceback.format_exc())
 
-    def __init__(self, matrix: Systems, conf: str):
-        self.__get_tmp_path()
+    def __init__(self, matrix: Systems):
+        self.tmp_path = util.folder_tmp_mux(config["CACHE_DIR"])
         index_path = os.path.join(self.tmp_path, "packages-index")
         self.repo = clone_package_index(index_path)
         self.index_proc = PackageIndexProc(index_path)
         self.index = self.index_proc.parse_board()
         self.matrix = matrix
-        self.oldver = gen_oldver(matrix, conf)
+        self.oldver = gen_oldver(matrix, config["config"])
 
     def __enter__(self):
         return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.__release_tmp_path()

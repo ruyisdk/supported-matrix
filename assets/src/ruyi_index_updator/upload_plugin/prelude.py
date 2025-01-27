@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 try:
-    from src.ruyi_index_parser import *
+    from src.ruyi_index_updator.ruyi_index_parser import *
     from src.version_checker import VInfo
     from src.ruyi_index_updator.upload_plugin_base import UploadPluginBase
 except ModuleNotFoundError:
