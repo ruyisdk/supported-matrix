@@ -13,7 +13,6 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-
 def handel_oauth_device_flow_error(
         resp_code: int, resp: dict, poll_interval: int) -> int | NoReturn:
     """

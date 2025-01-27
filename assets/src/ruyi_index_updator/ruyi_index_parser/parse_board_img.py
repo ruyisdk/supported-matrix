@@ -70,12 +70,14 @@ class BoardIndexDistfiles:
         "sha256": str,
         "sha512": str,
     ]
+    restrict: list[str] | None
 
     def __init__(self, d: dict):
         self.name = d["name"]
         self.size = d["size"]
         self.urls = d["urls"]
         self.checksums = d["checksums"]
+        self.restrict = d.get("restrict", None)
 
     def serialize(self) -> dict:
         """
@@ -86,6 +88,7 @@ class BoardIndexDistfiles:
             "size": self.size,
             "urls": self.urls,
             "checksums": self.checksums,
+            "restrict": self.restrict
         }
 
     def __copy__(self):

@@ -4,11 +4,11 @@ Plugin handler module
 
 import os
 import logging
-import atexit
-import tempfile
-import shutil
 from functools import partial
 from pluginbase import PluginBase
+
+from .config import config
+from . import util
 from .upload_plugin_base import UploadPluginBase
 from ..version_checker import VInfo
 
@@ -20,21 +20,6 @@ plugin_base = PluginBase(package="src.ruyi_index_updator.plugins")
 
 plugins: list[UploadPluginBase] = []
 
-CACHE_DIR: str | None = os.environ.get("CACHE_DIR", None)
-
-def __get_tmp_path() -> str:
-    if CACHE_DIR is None:
-        p = tempfile.mkdtemp()
-    else:
-        p = CACHE_DIR
-
-    def __release_tmp_path():
-        if CACHE_DIR is None:
-            shutil.rmtree(p)
-    atexit.register(__release_tmp_path)
-    return p
-
-
 def load_all_plugins():
     """
     Load all plugins
@@ -43,7 +28,7 @@ def load_all_plugins():
         searchpath=[get_path("./upload_plugin")],
     )
 
-    tmp_path = __get_tmp_path()
+    tmp_path = util.folder_tmp_mux(config["CACHE_DIR"])
 
     for plugin_name in sources.list_plugins():
         if plugin_name == "prelude":
