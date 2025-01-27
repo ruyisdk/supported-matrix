@@ -83,13 +83,15 @@ def main():
     force = args.force if args.force else False
 
     threadhold = ImageStatus(args.threadhold)
-    for diff in diffs.gen_diff(args.plugin_names, threadhold):
+    for diff in diffs.gen_diff(args.plugin_names, threadhold, force):
         pr = repo.upload_image(diff)
         if pr is None:
             continue
         if not args.pr:
             logger.info("%s", repr(pr))
             continue
+        if force:
+            pr.title = f"[Force Update] {pr.title}"
         repo.create_wrapped_pr(pr, force)
 
     if args.index is None:

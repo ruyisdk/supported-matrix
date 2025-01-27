@@ -86,10 +86,10 @@ jobs:
           echo "Generate and PR" > $RUNNER_TEMP/type.txt
           export CI_RUN_ID=${{ github.run_id }}
           export CI_RUN_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          if [[ ${{ ( github.event_name == 'push' || inputs.force ) }} == 'true' ]]; then
+          if ${{ ( github.event_name == 'workflow_dispatch' && inputs.force ) }}; then
             python assets/renew_ruyi_index.py -c assets/config.toml -p . -i $RUNNER_TEMP/cache --log $RUNNER_TEMP/log.txt --warn $RUNNER_TEMP/warn.txt --pr --force
           else
-            python assets/renew_ruyi_index.py -c assets/config.toml -p . -i $RUNNER_TEMP/cache --log $RUNNER_TEMP/log.txt --warn $RUNNER_TEMP/warn.txt --pr --force
+            python assets/renew_ruyi_index.py -c assets/config.toml -p . -i $RUNNER_TEMP/cache --log $RUNNER_TEMP/log.txt --warn $RUNNER_TEMP/warn.txt --pr
           fi
       - name: Output Summary
         run: |
