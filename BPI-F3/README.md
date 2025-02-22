@@ -33,10 +33,12 @@ cpu_core: SpacemiT X60
 - Alpine
   - Download Link: https://dev.alpinelinux.org/~mps/riscv64/
   - Reference Installation Document: https://docs.banana-pi.org/en/BPI-F3/GettingStarted_BPI-F3
+- Deepin
+  - Download Link: https://ci.deepin.com/repo/deepin/deepin-ports/cdimage/20240913/riscv64/deepin-23-beige-preview-riscv64-k1-20240913-124401.tar.xz
+  - Reference Installation Document: https://cdimage.deepin.com/RISC-V/preview-20240517-riscv64/README.md
 - openKylin
   - Download Links: https://www.openkylin.top/downloads/index.html
   - Reference Installation Document: https://docs.openkylin.top/en/01_%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97/%E5%9C%A8riscv%E4%B8%8A%E5%AE%89%E8%A3%85/%E5%9C%A8SpacemiT_K1%E4%B8%8A%E5%AE%89%E8%A3%85openKylin
-
 
 ### Hardware Information
 
@@ -52,6 +54,7 @@ cpu_core: SpacemiT X60
 | Fedora Image Boot           | N/A          | [Successful][Fedora]        |
 | OpenWrt Image Boot          | N/A          | [Successful][OpenWrt]       |
 | Alpine Image Boot           | N/A          | [Successful][Alpine]        |
+| Deepin Image Boot           | N/A          | [Successful][Deepin]        |
 | openKylin Image Boot           | N/A          | [Successful][openKylin]        |
 
 [Bianbu]: ./Bianbu/README.md
@@ -60,4 +63,5 @@ cpu_core: SpacemiT X60
 [Fedora]: ./Fedora/README.md
 [OpenWrt]: ./OpenWrt/README.md
 [Alpine]: ./Alpine/README.md
+[Deepin]: ./Deepin/README.md
 [openKylin]: ./openKylin/README.md
