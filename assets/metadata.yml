@@ -37,6 +37,7 @@ rtos:
   - melis: Melis
   - uniproton: UniProton
   - ucosii: μC/OS-II
+  - LiteOS: LiteOS
 
 others:
   - android: Android
