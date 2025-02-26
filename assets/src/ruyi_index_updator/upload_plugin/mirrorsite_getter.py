@@ -127,11 +127,14 @@ class MirrorsiteGetter(UploadPluginBase):
         file_link = None
         file_path = None
         for link in hyperlinks:
-            if handler["file_name_filter"](vinfo, link.contents[0]):
+            if not link.has_attr("href"):
+                continue
+            if handler["file_name_filter"](vinfo, str(link["href"])):
                 file_link = self.urljoin(
                     page_url, str(link["href"]))
+                file_name = self.urlbasename(file_link)
                 file_path = self.os.path.join(
-                    self.__tmppath__, link.contents[0])
+                    self.__tmppath__, file_name)
 
         if file_link is None:
             self.logger.error(
@@ -178,7 +181,7 @@ bpif3_bianbu: Info = {
 bpif3_openkylin: Info = {
     "index_name": "openkylin-bpi-f3",
     "tup": ("bpi_f3", "openkylin", "null"),
-    "version_mapper": lambda vinfo: f"0.{vinfo.version}",
+    "version_mapper": lambda vinfo: '.'.join(parts := vinfo.version.split('-SP', 1)) + ('' if len(parts) > 1 else '.0'),
     "url": {
         "mirrorsite_url": "https://mirrors.hust.edu.cn/",
         "split_path": "openkylin-cdimage/"
@@ -210,7 +213,7 @@ pioneer_revyos: Info = {
 pioneer_openkylin: Info = {
     "index_name": "openkylin-sg2042-milkv-pioneer",
     "tup": ("milkv_pioneer", "openkylin", "null"),
-    "version_mapper": lambda vinfo: f"0.{vinfo.version}",
+    "version_mapper": lambda vinfo: '.'.join(parts := vinfo.version.split('-SP', 1)) + ('' if len(parts) > 1 else '.0'),
     "url": {
         "mirrorsite_url": "https://mirrors.hust.edu.cn/",
         "split_path": "openkylin-cdimage/"
