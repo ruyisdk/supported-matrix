@@ -1,39 +1,35 @@
-# Fedora 38 LPi4A 官方版本 测试报告
+# Fedora 38 LPi4A Minimal 测试报告
 
 ## 测试环境
 
 ### 系统信息
 
-- 系统版本：Fedora 38
-- 下载链接：[https://openkoji.iscas.ac.cn/pub/dl/riscv/T-Head/th1520_light/images/](https://openkoji.iscas.ac.cn/pub/dl/riscv/T-Head/th1520_light/images/)
-- 参考安装文档：[https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head](https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head)
-- fastboot 链接：
-    - [https://pan.baidu.com/e/1xH56ZlewB6UOMlke5BrKWQ](https://pan.baidu.com/e/1xH56ZlewB6UOMlke5BrKWQ)
-    - [https://mega.nz/folder/phoQlBTZ#cZeQ3qZ__pDvP94PT3_bGA](https://mega.nz/folder/phoQlBTZ#cZeQ3qZ__pDvP94PT3_bGA)
+- 系统版本：Fedora 41
+- 下载链接：https://images.fedoravforce.org/LicheePi%204A
+- 参考安装文档：https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head
 
 ### 硬件信息
 
-- Lichee Pi 4A (8G RAM + 32G eMMC)
+- Lichee Pi 4A (16G RAM + 128G eMMC)
 - 电源适配器
-- microSD 卡一张
 - USB to UART 调试器一个
 
 ## 安装步骤
 
 ### 刷写镜像
 
-使用 `unxz` 解压镜像。
+使用 `gzip` 解压镜像。
 使用 `dd` 将镜像写入 microSD 卡。
 
 ```bash
-unxz /path/to/fedora.raw.xz
-sudo dd if=/path/to/fedora.raw of=/dev/your_device bs=1M status=progress
+gzip -d Fedora-Minimal-41-20250209114910.riscv64.Xuantie-TH1520.Sipeed-Lichee-Pi-4A.raw.gz 
+sudo dd if=Fedora-Minimal-41-20250209114910.riscv64.Xuantie-TH1520.Sipeed-Lichee-Pi-4A.raw of=/dev/<your_device> bs=4M status=progress
 ```
 
 ### 刷写 bootloader
 
-**注意：fedora 的 u-boot 在镜像中，上一步 dd 完镜像后，从 sd 卡中的 boot 分区提取！**
-![u-boot](./u-boot.png)
+**在 LicheePi 4A 启动 Fedora 需要使用特殊的 uboot，可以在这里下载** :
+https://mirror.iscas.ac.cn/fedora-riscv/dl/Sipeed/LicheePi4A/fw/u-boot-with-spl.bin
 
 进入 fastboot。
 - 正式版确认 boot 拨码开关为 eMMC。
@@ -42,10 +38,10 @@ sudo dd if=/path/to/fedora.raw of=/dev/your_device bs=1M status=progress
 使用 fastboot 按命令烧录 u-boot。
 
 ```bash
-sudo ./fastboot flash ram ./path/to/your/u-boot-with-spl_lpi4a.bin
-sudo ./fastboot reboot
-sleep 10
-sudo ./fastboot flash uboot ./path/to/your/u-boot-with-spl_lpi4a.bin
+sudo fastboot flash ram u-boot-with-spl.bin 
+sudo fastboot reboot
+
+sudo fastboot flash uboot u-boot-with-spl.bin 
 ```
 
 ### 登录系统
@@ -65,52 +61,89 @@ sudo ./fastboot flash uboot ./path/to/your/u-boot-with-spl_lpi4a.bin
 
 ### 启动信息
 
-屏幕录像（从刷写镜像到登录系统）：
-
-[![asciicast](https://asciinema.org/a/h2waHR5bazhEOeMYYxbbWUxBm.svg)](https://asciinema.org/a/h2waHR5bazhEOeMYYxbbWUxBm)
-
 ```log
-Welcome to the Fedora RISC-V disk image
-https://openkoji.iscas.ac.cn/koji/
 
-Build date: Mon May 15 18:37:47 UTC 2023
+Welcome to the Fedora-V Force disk image
+https://images.fedoravforce.org/
 
-Kernel 5.10.113 on an riscv64 (ttyS0)
+Build date: Sun Feb  9 11:55:21 UTC 2025
+
+Kernel 6.6.66-g1c6721ec2918-dirty on an riscv64 (ttyS0)
 
 The root password is 'riscv'.
 root password logins are disabled in SSH starting Fedora.
 
-If DNS isn’t working, try editing ‘/etc/yum.repos.d/fedora-riscv.repo’.
+If DNS isn’t working, try editing ‘/etc/resolv.conf’ or using 'resolvctl'.
 
 For updates and latest information read:
 https://fedoraproject.org/wiki/Architectures/RISC-V
 
 Fedora RISC-V
 -------------
-fedora-riscv login: root
+fedora login: root
 Password: 
-Last login: Wed May 10 20:03:42 on ttyS0
-[root@fedora-riscv ~]# neofetch
-             .',;::::;,'.                                                                                                       
-         .';:cccccccccccc:;,.            ----------------- 
-      .;cccccccccccccccccccccc;.         OS: Fedora Linux 38 (Xfce) riscv64 
-    .:cccccccccccccccccccccccccc:.       Host: T-HEAD Light Lichee Pi 4A configuration for 8GB DDR board 
-  .;ccccccccccccc;.:dddl:.;ccccccc;.     Kernel: 5.10.113 
- .:ccccccccccccc;OWMKOOXMWd;ccccccc:.    Uptime: 5 mins 
-.:ccccccccccccc;KMMc;cc;xMMc:ccccccc:.   Packages: 2070 (rpm) 
-,cccccccccccccc;MMM.;cc;;WW::cccccccc,   Shell: bash 5.2.15 
-:cccccccccccccc;MMM.;cccccccccccccccc:   Resolution: 1920x1080 
-:ccccccc;oxOOOo;MMM0OOk.;cccccccccccc:   Terminal: /dev/ttyS0 
-cccccc:0MMKxdd:;MMMkddc.;cccccccccccc;   CPU: (4) 
-ccccc:XM0';cccc;MMM.;cccccccccccccccc'   Memory: 217MiB / 7803MiB 
-ccccc;MMo;ccccc;MMW.;ccccccccccccccc;
-ccccc;0MNc.ccc.xMMd:ccccccccccccccc;                             
-cccccc;dNMWXXXWM0::cccccccccccccc:,                              
-cccccccc;.:odl:.;cccccccccccccc:,.
-:cccccccccccccccccccccccccccc:'.
-.:cccccccccccccccccccccc:;,..
-  '::cccccccccccccc::;,.
+[root@fedora ~]# uname -a
+Linux fedora 6.6.66-g1c6721ec2918-dirty #1 SMP PREEMPT Thu Jan 16 20:49:59 CST 2025 riscv64 GNU/Linux
+[root@fedora ~]# cat /etc/os-release 
+NAME="Fedora Linux"
+VERSION="41 (Forty One)"
+RELEASE_TYPE=stable
+ID=fedora
+VERSION_ID=41
+VERSION_CODENAME=""
+PLATFORM_ID="platform:f41"
+PRETTY_NAME="Fedora Linux 41 (Forty One)"
+ANSI_COLOR="0;38;2;60;110;180"
+LOGO=fedora-logo-icon
+CPE_NAME="cpe:/o:fedoraproject:fedora:41"
+DEFAULT_HOSTNAME="fedora"
+HOME_URL="https://fedoraproject.org/"
+DOCUMENTATION_URL="https://docs.fedoraproject.org/en-US/fedora/f41/system-administrators-guide/"
+SUPPORT_URL="https://ask.fedoraproject.org/"
+BUG_REPORT_URL="https://bugzilla.redhat.com/"
+REDHAT_BUGZILLA_PRODUCT="Fedora"
+REDHAT_BUGZILLA_PRODUCT_VERSION=41
+REDHAT_SUPPORT_PRODUCT="Fedora"
+REDHAT_SUPPORT_PRODUCT_VERSION=41
+SUPPORT_END=2025-12-15
+[root@fedora ~]# cat /proc/cpuinfo 
+processor       : 0
+hart            : 0
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_xtheadvector
+mmu             : sv39
+uarch           : thead,c910
+mvendorid       : 0x5b7
+marchid         : 0x0
+mimpid          : 0x0
 
+processor       : 1
+hart            : 1
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_xtheadvector
+mmu             : sv39
+uarch           : thead,c910
+mvendorid       : 0x5b7
+marchid         : 0x0
+mimpid          : 0x0
+
+processor       : 2
+hart            : 2
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_xtheadvector
+mmu             : sv39
+uarch           : thead,c910
+mvendorid       : 0x5b7
+marchid         : 0x0
+mimpid          : 0x0
+
+processor       : 3
+hart            : 3
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_xtheadvector
+mmu             : sv39
+uarch           : thead,c910
+mvendorid       : 0x5b7
+marchid         : 0x0
+mimpid          : 0x0
+
+[root@fedora ~]# 
 ```
 
 ## 测试判定标准

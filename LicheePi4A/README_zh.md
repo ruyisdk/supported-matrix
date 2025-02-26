@@ -13,9 +13,9 @@
 - openKylin 2.0 SP1
     - 下载链接：https://www.openkylin.top/downloads/index-cn.html
     - 参考安装文档：https://docs.openkylin.top/zh/01_%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97/%E5%9C%A8riscv%E4%B8%8A%E5%AE%89%E8%A3%85/%E5%9C%A8LicheePi4A%E4%B8%8A%E5%AE%89%E8%A3%85openKylin
-- Fedora 38
-    - 下载链接：https://openkoji.iscas.ac.cn/pub/dl/riscv/T-Head/th1520_light/images/
-    - 参考安装文档：https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head
+- Fedora 41
+  - 下载链接：https://images.fedoravforce.org/LicheePi%204A
+  - 参考安装文档：https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head
 - Armbian (Ubuntu 20.04 LTS)
     - 下载链接：https://github.com/chainsx/armbian-riscv-build/tree/main
     - 参考安装文档：https://github.com/chainsx/armbian-riscv-build/blob/main/doc/licheepi-4a-install-guide_ch.md

@@ -20,9 +20,9 @@ cpu_core: XuanTie C910 + XuanTie C906 + XuanTie E902
 - openKylin 2.0 SP1
     - Download link: [OpenKylin Downloads](https://www.openkylin.top/downloads/index-cn.html)
     - Reference Installation Document: [OpenKylin Installation Guide](https://docs.openkylin.top/zh/01_%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97/%E5%9C%A8riscv%E4%B8%8A%E5%AE%89%E8%A3%85/%E5%9C%A8LicheePi4A%E4%B8%8A%E5%AE%89%E8%A3%85openKylin)
-- Fedora 38
-    - Download link: [Fedora Images](https://openkoji.iscas.ac.cn/pub/dl/riscv/T-Head/th1520_light/images/)
-    - Reference Installation Document: [Fedora Installation Guide](https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head)
+- Fedora 41
+  - Download Link: https://images.fedoravforce.org/LicheePi%204A
+  - Reference Installation Document: https://fedoraproject.org/wiki/Architectures/RISC-V/T-Head
 - Armbian (Ubuntu 20.04 LTS)
     - Download link: [Armbian Images](https://github.com/chainsx/armbian-riscv-build/tree/main)
     - Reference Installation Document: [Armbian Installation Guide](https://github.com/chainsx/armbian-riscv-build/blob/main/doc/licheepi-4a-install-guide.md)
