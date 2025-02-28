@@ -8,6 +8,10 @@
 
 ![Linux](https://ruyisdk.github.io/support-matrix/linux_zh.svg)
 
+### 定制 Linux 发行版
+
+![Customized](https://ruyisdk.github.io/support-matrix/customized_zh.svg)
+
 ---
 
 ### *BSD

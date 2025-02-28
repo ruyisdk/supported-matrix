@@ -8,6 +8,10 @@
 
 ![Linux](https://ruyisdk.github.io/support-matrix/linux.svg)
 
+### Customized Linux Distributions
+
+![Customized](https://ruyisdk.github.io/support-matrix/customized.svg)
+
 ---
 
 ### *BSD

@@ -42,6 +42,13 @@ others:
   - android: Android
   - openharmony: OpenHarmony
 
+customized:
+  - bianbu: Bianbu
+  - redleafos: RedleafOS
+  - revyos: RevyOS
+  - rockos: RockOS
+  - tina: Tina-Linux
+
 ### END ###
 
 # Definations for README metadata

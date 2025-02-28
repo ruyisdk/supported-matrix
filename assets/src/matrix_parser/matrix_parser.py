@@ -279,6 +279,7 @@ class Systems:
     bsd: dict[str]
     rtos: dict[str]
     others: dict[str]
+    customized: dict[str]
 
     exclude_dir = [
         '.github',
@@ -316,6 +317,7 @@ class Systems:
             self.bsd = mp(data['bsd'])
             self.rtos = mp(data['rtos'])
             self.others = mp(data['others'])
+            self.customized = mp(data['customized'])
         self.boards = []
         for folder in os.listdir(path):
             if self.should_exclude(folder):
