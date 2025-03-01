@@ -119,12 +119,23 @@ class UploadPluginBase(ABC):
         Get the size of a file.
         """
         return self.os.path.getsize(file)
-    
+
     def urljoin(self, base: str, path: str) -> str:
         """
         Do a urljoin
         """
         return self.urllib_parse.urljoin(base + '/', path)
+
+    def urlbasename(self, url: str) -> str:
+        """
+        Get the basename of a url.
+        """
+        parsed = self.urllib_parse.urlparse(url)
+        path = parsed.path
+        if path and path.endswith('/'):
+            return ""
+        filename = self.os.path.basename(path)
+        return filename
 
     def sha256sum(self, file: str) -> str:
         """

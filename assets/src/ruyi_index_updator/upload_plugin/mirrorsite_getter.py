@@ -127,11 +127,14 @@ class MirrorsiteGetter(UploadPluginBase):
         file_link = None
         file_path = None
         for link in hyperlinks:
-            if handler["file_name_filter"](vinfo, link.contents[0]):
+            if not link.has_attr("href"):
+                continue
+            if handler["file_name_filter"](vinfo, str(link["href"])):
                 file_link = self.urljoin(
                     page_url, str(link["href"]))
+                file_name = self.urlbasename(file_link)
                 file_path = self.os.path.join(
-                    self.__tmppath__, link.contents[0])
+                    self.__tmppath__, file_name)
 
         if file_link is None:
             self.logger.error(
@@ -175,22 +178,6 @@ bpif3_bianbu: Info = {
             vinfo.version}",
 }
 
-bpif3_openkylin: Info = {
-    "index_name": "openkylin-bpi-f3",
-    "tup": ("bpi_f3", "openkylin", "null"),
-    "version_mapper": lambda vinfo: f"0.{vinfo.version}",
-    "url": {
-        "mirrorsite_url": "https://mirrors.hust.edu.cn/",
-        "split_path": "openkylin-cdimage/"
-    },
-    "file_name_filter": lambda vinfo, filename:
-        "openKylin-Embedded" in filename and
-        "spacemit-k1" in filename,
-    "gen_desc": lambda vinfo, index_name:
-        f"Official OpenKylin Embedded image for Banana Pi F3 version {
-            vinfo.version}",
-}
-
 pioneer_revyos: Info = {
     "index_name": "revyos-sg2042-milkv-pioneer",
     "tup": ("milkv_pioneer", "debian", "null"),
@@ -207,10 +194,39 @@ pioneer_revyos: Info = {
         f"RevyOS {vinfo.version} image for Milk-V Pioneer Box with SG2042"
 }
 
+
+def openkylin_mapper(vinfo: VInfo) -> str:
+    """
+    openKylin doesn't totally follow the versioning rule.
+    Seen 2.0 as 2.0.0-0 and 2.0-sp1 as 2.0.0-1, 
+    so if some day they really release something like 2.0.1-rc-sp1, then it still works fine.
+    """
+    m = re.match(
+        r"(\d+)\.(\d+)(\.(\d+))?((-(?:(?!SP)\w+))*)(-SP(\d+))?((-(\w+))*)?((\+(\w+))*)?",
+        vinfo.version)
+    return f"{m[1]}.{m[2]}.{m[4] or 0}-{m[8] or 0}{m[5]}{m[9]}{m[12]}"
+
+
+bpif3_openkylin: Info = {
+    "index_name": "openkylin-bpi-f3",
+    "tup": ("bpi_f3", "openkylin", "null"),
+    "version_mapper": openkylin_mapper,
+    "url": {
+        "mirrorsite_url": "https://mirrors.hust.edu.cn/",
+        "split_path": "openkylin-cdimage/"
+    },
+    "file_name_filter": lambda vinfo, filename:
+        "openKylin-Embedded" in filename and
+        "spacemit-k1" in filename,
+    "gen_desc": lambda vinfo, index_name:
+        f"Official OpenKylin Embedded image for Banana Pi F3 version {
+            vinfo.version}",
+}
+
 pioneer_openkylin: Info = {
     "index_name": "openkylin-sg2042-milkv-pioneer",
     "tup": ("milkv_pioneer", "openkylin", "null"),
-    "version_mapper": lambda vinfo: f"0.{vinfo.version}",
+    "version_mapper": openkylin_mapper,
     "url": {
         "mirrorsite_url": "https://mirrors.hust.edu.cn/",
         "split_path": "openkylin-cdimage/"
