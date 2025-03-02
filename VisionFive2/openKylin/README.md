@@ -1,20 +1,20 @@
 ---
 sys: openkylin
-sys_ver: 2.0
+sys_ver: 2.0-SP1
 sys_var: null
 
 status: good
-last_update: 2024-10-21
+last_update: 2025-01-15
 ---
 
-# openKylin 2.0 VisionFive 2 Test Report
+# openKylin 2.0 SP1 VisionFive 2 Test Report
 
 ## Test Environment
 
 ### Operating System Information
 
-- System Version: openKylin 2.0
-- Download Link: https://mirror.iscas.ac.cn/openkylin-cdimage/2.0/openKylin-Embedded-V2.0-Release-visionfive2-riscv64.img.xz
+- System Version: openKylin 2.0 SP1
+- Download Link: https://www.openkylin.top/downloads/index-en.html
 - Reference Installation Document: https://docs.openkylin.top/zh/01_%E5%AE%89%E8%A3%85%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97/%E5%9C%A8riscv%E4%B8%8A%E5%AE%89%E8%A3%85/%E5%9C%A8VisionFive2%E4%B8%8A%E5%AE%89%E8%A3%85openKylin (Chinese)
 ### Hardware Information
 
@@ -32,8 +32,8 @@ last_update: 2024-10-21
 Assume `/dev/sdc` is the storage card.
 
 ```bash
-xz -d openKylin-Embedded-V2.0-Release-visionfive2-riscv64.img.xz
-sudo dd if=openKylin-Embedded-V2.0-Release-visionfive2-riscv64.img of=/dev/sdc bs=1M status=progress
+xz -d openKylin-Embedded-V2.0-SP1-visionfive2-riscv64.img.xz
+sudo dd if=openKylin-Embedded-V2.0-SP1-visionfive2-riscv64.img of=/dev/sda status=progress
 ```
 
 ### Boot Mode Selection
@@ -60,6 +60,7 @@ The system booted successfully and login through the graphical interface was suc
 ### Boot Log
 
 ```log
+openKylin 2.0 openkylin ttyS0
 
 openkylin login: openkylin
 密码： 
@@ -75,9 +76,10 @@ openKylin comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
 applicable law.
 
 You do not have any new mail.
-load environment: GTK_MODULES=gail:atk-bridge
 load environment: QT_ACCESSIBILITY=1
 load environment: PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+openkylin@openkylin:~$ uname -a
+Linux openkylin 6.6.20 #1 SMP Tue May 28 14:19:33 CST 2024 riscv64 riscv64 riscv64 GNU/Linux
 openkylin@openkylin:~$ cat /etc/os-release 
 NAME="openKylin"
 FULL_NAME="openKylin"
@@ -89,10 +91,42 @@ VERSION_ID="2.0"
 HOME_URL="https://www.openkylin.top/"
 VERSION_CODENAME=nile
 PRODUCT_FEATURES=3
-openkylin@openkylin:~$ uname -a
-Linux openkylin 6.6.20 #1 SMP Tue May 28 14:19:33 CST 2024 riscv64 riscv64 riscv64 GNU/Linux
-openkylin@openkylin:~$ 
+openkylin@openkylin:~$ cat /proc/cpuinfo 
+processor       : 0
+hart            : 3
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_zba_zbb
+mmu             : sv39
+uarch           : sifive,u74-mc
+mvendorid       : 0x489
+marchid         : 0x8000000000000007
+mimpid          : 0x4210427
 
+processor       : 1
+hart            : 1
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_zba_zbb
+mmu             : sv39
+uarch           : sifive,u74-mc
+mvendorid       : 0x489
+marchid         : 0x8000000000000007
+mimpid          : 0x4210427
+
+processor       : 2
+hart            : 2
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_zba_zbb
+mmu             : sv39
+uarch           : sifive,u74-mc
+mvendorid       : 0x489
+marchid         : 0x8000000000000007
+mimpid          : 0x4210427
+
+processor       : 3
+hart            : 4
+isa             : rv64imafdc_zicntr_zicsr_zifencei_zihpm_zba_zbb
+mmu             : sv39
+uarch           : sifive,u74-mc
+mvendorid       : 0x489
+marchid         : 0x8000000000000007
+mimpid          : 0x4210427
 ```
 
 ![login](./image.png)

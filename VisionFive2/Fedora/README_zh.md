@@ -45,7 +45,7 @@ sudo dd if=fedora-disk-multi-desktops_starfive_vf2-sda.raw of=/dev/your-device b
 
 ### 启动信息
 
-镜像内提供的默认桌面环境为LXDE。
+镜像内提供的默认桌面环境为 LXDE。
 
 ![](vf2_fedoravforce_lxde.webp)
 

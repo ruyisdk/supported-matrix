@@ -65,6 +65,11 @@ cpu_core: SiFive U74 + SiFive S7 + SiFive E24
 - NixOS
     - Source code link: https://github.com/NickCao/nixos-riscv
     - Reference Installation Document: https://github.com/NickCao/nixos-riscv/README.md
+- eweOS
+    - Source code Link: https://github.com/panglars/eweos-vf2-mainline
+    - Reference Installation Document: https://github.com/panglars/eweos-vf2-mainline/blob/main/README.md
+    
+    
 ### Hardware Information
 
 - StarFive VisionFive 2
@@ -72,7 +77,7 @@ cpu_core: SiFive U74 + SiFive S7 + SiFive E24
 ## Test Results
 
 | Software Category     | Software Package | Test Results (Test Report)                        |
-| --------------------- | ---------------- | ------------------------------------------------- |
+|-----------------------|------------------|---------------------------------------------------|
 | openEuler/Base Image  | N/A              | [Successful][oERV]                                |
 | openEuler/Xfce Image  | Xfce             | [Successful][oERV]                                |
 | Debian Image          | N/A              | [Successful][Debian] (Official StarFive Image)    |
@@ -96,6 +101,7 @@ cpu_core: SiFive U74 + SiFive S7 + SiFive E24
 | Alpine Image          | N/A              | [Successful][Alpine]                              |
 | DietPi Image          | N/A              | [Successful][DietPi]                              |
 | NixOS Image           | N/A              | [Successful][NixOS]                               |
+| eweOS Image           | N/A              | [Successful][eweOS]                               |
 
 [oERV]: ./openEuler/README.md
 [Debian]: ./Debian/README.md
@@ -118,3 +124,4 @@ cpu_core: SiFive U74 + SiFive S7 + SiFive E24
 [Alpine]: ./Alpine/README.md
 [DietPi]: ./DietPi/README.md
 [NixOS]: ./NixOS/README.md
+[eweOS]: ./eweOS/README.md
